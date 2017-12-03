@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>ff099f88-5b22-43d5-bc46-f9a850d41ede</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>TrackbarPalette.py</StartupFile>
+    <StartupFile>ArithmeticOperations.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -22,6 +22,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ArithmeticOperations.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DrawingFunctions.py">
       <SubType>Code</SubType>
     </Compile>
