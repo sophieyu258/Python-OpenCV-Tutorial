@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>ff099f88-5b22-43d5-bc46-f9a850d41ede</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>DenseOpticalFlow.py</StartupFile>
+    <StartupFile>opt_flow.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -41,6 +41,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="OpenCVTutorial.py" />
+    <Compile Include="opt_flow.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Threshold.py">
       <SubType>Code</SubType>
     </Compile>
