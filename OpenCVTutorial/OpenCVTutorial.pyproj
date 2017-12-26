@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>ff099f88-5b22-43d5-bc46-f9a850d41ede</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>opt_flow.py</StartupFile>
+    <StartupFile>DenseOpticalFlow.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>

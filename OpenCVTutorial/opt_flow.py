@@ -59,9 +59,14 @@ if __name__ == '__main__':
         flow = cv2.calcOpticalFlowFarneback(prevgray, gray, None, 0.5, 3, 15, 3, 5, 1.2, 0)
         prevgray = gray
 
+        mag, ang = cv2.cartToPolar(flow[...,0], flow[...,1])
+        #print(mag.shape)
+        print(mag.min())
+        print(mag.max())
+
         arrows.clear()
         finalImg = draw_flow(gray,flow)
-        print(arrows)
+        #print(arrows)
         cv2.imshow('flow', finalImg)
         if show_hsv:
             cv2.imshow('flow HSV', draw_hsv(flow))

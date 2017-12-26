@@ -33,6 +33,7 @@ while(1):
 
     mag, ang = cv2.cartToPolar(flow[...,0], flow[...,1])
     #print(mag.shape)
+    mag[mag == -np.inf] = 0
     print(mag.min())
     print(mag.max())
     hsv[...,0] = ang #*180/np.pi/2
