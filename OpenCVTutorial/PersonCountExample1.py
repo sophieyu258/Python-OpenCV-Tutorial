@@ -36,7 +36,8 @@ def testIntersectionOut(x, y):
 
     return False
 
-camera = cv2.VideoCapture("C:\\hbwork\\pyprojects\\OpenCVTutorial\\data\\test2.mp4")
+#camera = cv2.VideoCapture("C:\\hbwork\\pyprojects\\OpenCVTutorial\\data\\test2.mp4")
+camera = cv2.VideoCapture(0)
 
 firstFrame = None
 
