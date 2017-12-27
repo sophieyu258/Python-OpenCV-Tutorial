@@ -1,7 +1,8 @@
 import numpy as np
 import cv2
 
-cap = cv2.VideoCapture("C:\\opencv\\source_code\\opencv-3.3.0\\samples\\data\\vtest.avi")
+#cap = cv2.VideoCapture("C:\\opencv\\source_code\\opencv-3.3.0\\samples\\data\\vtest.avi")
+cap = cv2.VideoCapture(0)   # capture from webcam
 
 fgbg = cv2.createBackgroundSubtractorMOG2()
 
