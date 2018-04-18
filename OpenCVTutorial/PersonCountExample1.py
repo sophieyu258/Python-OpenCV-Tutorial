@@ -36,8 +36,8 @@ def testIntersectionOut(x, y):
 
     return False
 
-#camera = cv2.VideoCapture("C:\\hbwork\\pyprojects\\OpenCVTutorial\\data\\test2.mp4")
-camera = cv2.VideoCapture(0)
+camera = cv2.VideoCapture("..\\data\\test2.mp4")
+#camera = cv2.VideoCapture(0)
 
 firstFrame = None
 
@@ -97,8 +97,8 @@ while True:
         # draw the text and timestamp on the frame
 
         # show the frame and record if the user presses a key
-        cv2.imshow("Thresh", thresh)
-        cv2.imshow("Frame Delta", frameDelta)
+        #cv2.imshow("Thresh", thresh)
+        #cv2.imshow("Frame Delta", frameDelta)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
