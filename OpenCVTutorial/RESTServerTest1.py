@@ -5,6 +5,7 @@ from flask import abort
 from flask import make_response
 from flask import request
 from flask import url_for
+from flask_httpauth import HTTPBasicAuth
 from flask_restful import Resource, Api
 from json import dumps
 
@@ -12,6 +13,17 @@ app = Flask(__name__)
 api = Api(app)
 
 # examples from https://blog.miguelgrinberg.com/post/designing-a-restful-api-with-python-and-flask
+
+auth = HTTPBasicAuth()
+@auth.get_password
+def get_password(username):
+    if username == 'miguel':
+        return 'mypass'
+    return None
+
+@auth.error_handler
+def unauthorized():
+    return make_response(jsonify({'error': 'Unauthorized access'}), 401)
 
 @app.route('/')
 def index():
@@ -43,6 +55,7 @@ def make_public_task(task):
 
 
 @app.route('/todo/api/v1.0/tasks', methods=['GET'])
+@auth.login_required
 def get_tasks():
     return jsonify({'tasks': [make_public_task(task) for task in tasks]})
 
