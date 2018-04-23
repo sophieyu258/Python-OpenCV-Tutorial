@@ -1,4 +1,7 @@
 import os
+import cv2
+import numpy as np
+
 from flask import Flask, request, redirect, url_for
 from flask import send_from_directory
 from werkzeug.utils import secure_filename
@@ -8,6 +11,9 @@ ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+def flash(message):
+    print(message)
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -28,7 +34,13 @@ def upload_file():
             return redirect(request.url)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            savedFile = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(savedFile)
+            img = cv2.imread(savedFile)
+            #print(img)
+            if not img is None:                
+                cv2.imshow('original',img)
+                cv2.waitKey(0)
             return redirect(url_for('uploaded_file',
                                     filename=filename))
     return '''
