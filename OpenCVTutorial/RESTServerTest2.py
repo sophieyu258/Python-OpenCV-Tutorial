@@ -15,6 +15,11 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def flash(message):
     print(message)
 
+def get_np_array_from_filestorage(fstore):
+     '''converts a buffer from a FileStorage in np.array'''
+     ba = bytearray(fstore.read())
+     return np.asarray(ba, dtype=np.uint8)
+
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -37,12 +42,12 @@ def upload_file():
             savedFile = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(savedFile)
             img = cv2.imread(savedFile)
+            #img = cv2.imread(get_np_array_from_filestorage(file))
             #print(img)
             if not img is None:                
                 cv2.imshow('original',img)
-                cv2.waitKey(0)
-            return redirect(url_for('uploaded_file',
-                                    filename=filename))
+                cv2.waitKey(1)
+            return redirect(url_for('uploaded_file', filename=filename))
     return '''
     <!doctype html>
     <title>Upload new File</title>
