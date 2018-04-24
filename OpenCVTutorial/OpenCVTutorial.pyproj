@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>ff099f88-5b22-43d5-bc46-f9a850d41ede</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>PersonCountExample1.py</StartupFile>
+    <StartupFile>RESTServerTest2.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -50,6 +50,12 @@
     <Compile Include="PersonCountExample1.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="RESTServerTest1.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RESTServerTest2.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Threshold.py">
       <SubType>Code</SubType>
     </Compile>
@@ -62,10 +68,7 @@
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
-    <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
   </PropertyGroup>
-  <Import Condition="Exists($(PtvsTargetsFile))" Project="$(PtvsTargetsFile)" />
-  <Import Condition="!Exists($(PtvsTargetsFile))" Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
        Visual Studio and specify your pre- and post-build commands in
        the BeforeBuild and AfterBuild targets below. -->
@@ -74,4 +77,5 @@
   </Target>
   <Target Name="AfterBuild">
   </Target>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
 </Project>
