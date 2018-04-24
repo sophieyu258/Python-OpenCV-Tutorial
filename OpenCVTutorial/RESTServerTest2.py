@@ -6,7 +6,7 @@ from flask import Flask, request, redirect, url_for
 from flask import send_from_directory
 from werkzeug.utils import secure_filename
 
-UPLOAD_FOLDER = 'H:\\work2\\TestProjects\\python\\Python-OpenCV-Tutorial\\data\\uploads'
+UPLOAD_FOLDER = '..\\data\\uploads'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 app = Flask(__name__)
@@ -64,4 +64,4 @@ def uploaded_file(filename):
                                filename)
 
 if __name__ == '__main__':
-     app.run()
+     app.run(host='192.168.1.14', port=888)
