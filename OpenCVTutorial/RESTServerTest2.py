@@ -28,10 +28,10 @@ def allowed_file(filename):
 def upload_file():
     if request.method == 'POST':
         # check if the post request has the file part
-        #if 'file' not in request.files:
-        #    flash('No file part')
-        #    return redirect(request.url)
-        file = request.files['myfile']
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
         # if user does not select file, browser also
         # submit a empty part without filename
         if file.filename == '':
@@ -44,8 +44,10 @@ def upload_file():
             img = cv2.imread(savedFile)
             #img = cv2.imread(get_np_array_from_filestorage(file))
             #print(img)
-            if not img is None:                
-                cv2.imshow('original',img)
+            if not img is None:    
+                #small = cv2.resize(img, (0,0), fx=0.5, fy=0.5)
+                small = cv2.resize(img, (640,480))            
+                cv2.imshow('halfsize',small)
                 cv2.waitKey(1)
             return redirect(url_for('uploaded_file', filename=filename))
     return '''
