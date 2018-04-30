@@ -24,44 +24,6 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-# interface to browser
-@app.route('/sendimg/', methods=['GET', 'POST'])
-def upload_image():
-    if request.method == 'POST':
-        # check if the post request has the file part
-        if 'file' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
-        file = request.files['file']
-        # if user does not select file, browser also
-        # submit a empty part without filename
-        if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            savedFile = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            file.save(savedFile)
-            img = cv2.imread(savedFile)
-            #img = cv2.imread(get_np_array_from_filestorage(file))
-            #print(img)
-            if not img is None:   
-                resized_image = cv2.resize(img, (640, 480)) 
-                #cv2.imshow('original',img)
-                cv2.imshow('resized',resized_image)
-                cv2.waitKey(1)
-            return redirect(url_for('uploaded_file', filename=filename))
-    return '''
-    <!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
-    <form method=post enctype=multipart/form-data>
-      <p><input type=file name=file>
-         <input type=submit value=Upload>
-    </form>
-    '''
-
-# interface to android
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
@@ -85,8 +47,16 @@ def upload_file():
             if not img is None:                
                 cv2.imshow('original',img)
                 cv2.waitKey(1)
-            return 'get it!'
-    return 'hello from upload_file()!'
+            return redirect(url_for('uploaded_file', filename=filename))
+    return '''
+    <!doctype html>
+    <title>Upload new File</title>
+    <h1>Upload new File</h1>
+    <form method=post enctype=multipart/form-data>
+      <p><input type=file name=file>
+         <input type=submit value=Upload>
+    </form>
+    '''
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
@@ -94,5 +64,4 @@ def uploaded_file(filename):
                                filename)
 
 if __name__ == '__main__':
-     # app.run(host='192.168.1.14', port=888)
-     app.run(port=888)
+     app.run(host='192.168.1.14', port=888)
