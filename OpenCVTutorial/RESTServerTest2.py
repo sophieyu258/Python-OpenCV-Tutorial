@@ -31,6 +31,8 @@ def upload_file():
         if 'file' not in request.files:
             flash('No file part')
             return redirect(request.url)
+        if 'firstname' in request.form:
+            print(request.form['firstname'])
         file = request.files['file']
         # if user does not select file, browser also
         # submit a empty part without filename
@@ -55,6 +57,7 @@ def upload_file():
     <title>Upload new File</title>
     <h1>Upload new File</h1>
     <form method=post enctype=multipart/form-data>
+    <input type="text" name="firstname" value="Mickey">
       <p><input type=file name=file>
          <input type=submit value=Upload>
     </form>
@@ -66,4 +69,4 @@ def uploaded_file(filename):
                                filename)
 
 if __name__ == '__main__':
-     app.run(host='192.168.1.14', port=888)
+     app.run(host='0.0.0.0', port=888)
