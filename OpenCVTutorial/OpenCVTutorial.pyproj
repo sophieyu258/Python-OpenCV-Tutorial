@@ -65,6 +65,7 @@
     <Compile Include="Transformations.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="web_service_facerec.py" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
