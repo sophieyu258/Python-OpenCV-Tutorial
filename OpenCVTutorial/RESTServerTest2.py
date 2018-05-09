@@ -65,7 +65,7 @@ def mobile_upload_file():
     <title>Upload new File</title>
     <h1>Upload new File</h1>
     <form method=post enctype=multipart/form-data>
-    <input type="text" name="firstname" value="Mickey">
+    <input type="text" name="fullname" value="hangbin">
       <p><input type=file name=file>
          <input type=submit value=Upload>
     </form>
@@ -102,7 +102,7 @@ def upload_file():
     return '''
     <!doctype html>
     <title>Upload new File</title>
-    <h1>Upload new File</h1>
+    <h1>Upload File to another place</h1>
     <form method=post enctype=multipart/form-data>
     <input type="text" name="firstname" value="Mickey">
       <p><input type=file name=file>
@@ -116,4 +116,5 @@ def uploaded_file(filename):
                                filename)
 
 if __name__ == '__main__':
-     app.run(host='192.168.1.14', port=888)
+     #app.run(host='192.168.1.14', port=888)
+     app.run(host='0.0.0.0', port=888)
