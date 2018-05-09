@@ -1,5 +1,13 @@
 from datetime import datetime
 
+def CalculateWorkTime(timeLogList):
+    currDate = timeLogList[0][1].date()
+    print(currDate)
+    timeStart = None
+    timeEnd = None
+    for timeLog in timeLogList:
+        print(timeLog)
+
 def Process(filename):
     empWorkTime = {}
     for line in open(filename):
@@ -10,10 +18,10 @@ def Process(filename):
             empWorkTime[empName].append((logId, logTime, action, actionType))
         else:            
             empWorkTime[empName] = [(logId, logTime, action, actionType)]
-        print(line)
-        print(logId, empName, logTime, action, actionType)
-        print(empWorkTime[empName])
-        input("Press Enter to continue...")
+
+    for empName, timeLogList in empWorkTime.items():
+        print(empName)
+        CalculateWorkTime(list(reversed(timeLogList)))
 
 if __name__ == '__main__':
      Process('Export_20180218_221120.csv')

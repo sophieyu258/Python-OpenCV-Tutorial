@@ -50,6 +50,9 @@
     <Compile Include="PersonCountExample1.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ProcessLog.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="RESTServerTest1.py">
       <SubType>Code</SubType>
     </Compile>
