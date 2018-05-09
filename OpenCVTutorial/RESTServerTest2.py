@@ -5,6 +5,7 @@ import numpy as np
 from flask import Flask, request, redirect, url_for
 from flask import send_from_directory
 from werkzeug.utils import secure_filename
+from flask import jsonify
 
 UPLOAD_FOLDER = '..\\data\\uploads'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
@@ -25,6 +26,52 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/', methods=['GET', 'POST'])
+def mobile_upload_file():
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        if 'firstname' in request.form:
+            print(request.form['firstname'])
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit a empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            savedFile = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(savedFile)
+            img = cv2.imread(savedFile)
+            #img = cv2.imread(get_np_array_from_filestorage(file))
+            #print(img)
+            if not img is None:    
+                #small = cv2.resize(img, (0,0), fx=0.5, fy=0.5)
+                small = cv2.resize(img, (640,480))            
+                cv2.imshow('halfsize',small)
+                cv2.waitKey(1)
+            # Return the result as json
+            face_found = False
+            face_name = 'hb'
+            result = {
+                "face_found_in_image": face_found,
+                "face_name": face_name
+            }
+            return jsonify(result)
+    return '''
+    <!doctype html>
+    <title>Upload new File</title>
+    <h1>Upload new File</h1>
+    <form method=post enctype=multipart/form-data>
+    <input type="text" name="firstname" value="Mickey">
+      <p><input type=file name=file>
+         <input type=submit value=Upload>
+    </form>
+    '''
+
+@app.route('/mobile/', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
         # check if the post request has the file part
@@ -69,4 +116,4 @@ def uploaded_file(filename):
                                filename)
 
 if __name__ == '__main__':
-     app.run(host='0.0.0.0', port=888)
+     app.run(host='192.168.1.14', port=888)
