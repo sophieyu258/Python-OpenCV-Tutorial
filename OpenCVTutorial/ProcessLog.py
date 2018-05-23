@@ -1,4 +1,5 @@
 from datetime import datetime
+from datetime import timedelta
 
 class WorkTimeSpan:
     timeStart = None
@@ -31,7 +32,7 @@ class DayProcessor:
         if action == "Punch In":
             self.currStartTime = t
         elif action == "Punch Out":
-            self.currEndTimeTime = t
+            self.currEndTime = t
             # initialize as if work start from midnight
             workTimeSpan = WorkTimeSpan(self.dayMinTime, self.currEndTime)
             if self.currStartTime:
@@ -51,31 +52,55 @@ class DayProcessor:
             # a valid time span is added
             workTimeSpan = WorkTimeSpan(self.currStartTime, self.dayMaxTime)
             self.workTimeSpanList.append(workTimeSpan)
-                
-        print(self.workDate)
-        for ws in self.workTimeSpanList:
-            print(str(ws.timeStart) + " - " + str(ws.timeEnd) + " : " + str(ws.CalculateWorkTime()))
-
-def CalculateWorkTime(timeLogList):
-    currDate = timeLogList[0][1].date()
-    dayProcessor = DayProcessor(currDate)
     
-    for timeLog in timeLogList:
-        # print(timeLog)
-        logTime = timeLog[1]
-        logDate = logTime.date()
-        action = timeLog[2]
-        if logDate != currDate:
-            # date changed, calculate total time of this day            
-            dayProcessor.Process()
-            # reset day processor
-            currDate = logDate
-            dayProcessor = DayProcessor(currDate)
-        else:
-            # same date, add a processor entry
-            dayProcessor.AddTime(logTime, action)
+    def Export(self):
+        print(self.workDate)
+        totalWorkTime = timedelta()
+        for ws in self.workTimeSpanList:
+            workTime = ws.CalculateWorkTime()
+            totalWorkTime += workTime
+            print(str(ws.timeStart) + " - " + str(ws.timeEnd) + " : " + str(workTime))
+        print("Total work time in " + str(self.workDate) + " : " + str(totalWorkTime))
+  
 
-def Process(filename):
+class EmpWorkRecord:
+    
+    mDailyRecord = []
+    mEmployeeName = "Not set"
+
+    def __init__(self, empName):
+        self.mEmployeeName = empName
+        self.mDailyRecord = []
+
+    def Export(self):
+        print(self.mEmployeeName)
+        for dr in self.mDailyRecord:
+            dr.Export()
+
+    def CalculateWorkTime(self, timeLogList):    
+        currDate = timeLogList[0][1].date()
+        dayProcessor = DayProcessor(currDate)
+    
+        for timeLog in timeLogList:
+            # print(timeLog)
+            logTime = timeLog[1]
+            logDate = logTime.date()
+            action = timeLog[2]
+            if logDate != currDate:
+                # date changed, calculate total time of this day            
+                dayProcessor.Process()
+                # reset day processor
+                currDate = logDate
+                dayProcessor = DayProcessor(currDate)
+                dayProcessor.AddTime(logTime, action)
+            else:
+                # same date, add a processor entry
+                dayProcessor.AddTime(logTime, action)
+        # process data of last date
+        dayProcessor.Process()
+        self.mDailyRecord.append(dayProcessor)
+
+def ProcessFile(filename):
     empWorkTime = {}
     for line in open(filename):
         logId, empName, logTime, action, actionType = line.rstrip().split(',')
@@ -87,8 +112,9 @@ def Process(filename):
             empWorkTime[empName] = [(logId, logTime, action, actionType)]
 
     for empName, timeLogList in empWorkTime.items():
-        print(empName)
-        CalculateWorkTime(list(reversed(timeLogList)))
+        empRec = EmpWorkRecord(empName)
+        empRec.CalculateWorkTime(list(reversed(timeLogList)))
+        empRec.Export()
 
 if __name__ == '__main__':
-     Process('input.csv')
+     ProcessFile('H:\\work2\\TestProjects\\python\\Python-OpenCV-Tutorial\\OpenCVTutorial\\input.csv')
