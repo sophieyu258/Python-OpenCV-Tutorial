@@ -6,11 +6,39 @@ class WorkTimeSpan:
     timeEnd = None
 
     def __init__(self, ts, te):
-        self.timeStart = ts
-        self.timeEnd = te
+        self.timeStart = self.AdjustStartTime(ts)
+        self.timeEnd = self.AdjustEndTime(te)
+
+    def AdjustTimeToQuarter(self, dt, offset):
+        minutesAdjusted = 15 * round((float(dt.minute + offset) + float(dt.second)/60) / 15)
+        addHour = False
+        if minutesAdjusted < 0:
+            minutesAdjusted = 0
+        if minutesAdjusted > 59:
+            minutesAdjusted = 0
+            addHour = True
+        adjustedTime = datetime(dt.year, dt.month, dt.day, dt.hour, minutesAdjusted)
+        if addHour:
+            adjustedTime += + timedelta(hours=1)
+        return adjustedTime
+
+    def AdjustStartTime(self, dt):
+        """ Rocky's customized function"""
+        return self.AdjustTimeToQuarter(dt, 7.5)
+
+    def AdjustEndTime(self, dt):
+        """ Rocky's customized function"""
+        return self.AdjustTimeToQuarter(dt, -7.5)
+
+    def AdjustBreakTime(self, workTime):
+        """ Rocky's customized function"""
+        adjustedWorkTime = workTime
+        if adjustedWorkTime > timedelta(hours=3, minutes=30):
+            adjustedWorkTime -= timedelta(minutes=30)
+        return adjustedWorkTime
 
     def CalculateWorkTime(self):
-        return self.timeEnd - self.timeStart
+        return self.AdjustBreakTime(self.timeEnd - self.timeStart)
 
 class DayProcessor:
     """ process work time of an employee in one day """
