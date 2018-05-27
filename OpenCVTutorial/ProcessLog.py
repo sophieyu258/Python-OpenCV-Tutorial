@@ -1,5 +1,7 @@
 from datetime import datetime
 from datetime import timedelta
+import sys
+import os
 
 class WorkTimeSpan:
     timeStart = None
@@ -145,4 +147,13 @@ def ProcessFile(filename):
         empRec.Export()
 
 if __name__ == '__main__':
-     ProcessFile('H:\\work2\\TestProjects\\python\\Python-OpenCV-Tutorial\\OpenCVTutorial\\input.csv')
+    print ('Number of arguments:', len(sys.argv))
+    for arg in sys.argv:
+        print (str(arg))
+    if len(sys.argv) < 2:
+        print("Usage: python ProcessLog.py Filename")
+        sys.exit()
+    
+    fn = sys.argv[1]
+    if os.path.exists(fn):
+        ProcessFile(fn)
